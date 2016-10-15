@@ -1,0 +1,170 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{pst-plot}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\titlespacing*{\section}
+{0pt}{0ex plus 0ex minus 1ex}{0ex plus 0ex}
+\titlespacing*{\subsection}
+{0pt}{0ex plus 0ex minus 1ex}{0ex plus 0ex}
+\usepackage{multicol}
+\usepackage{endnotes}
+\usepackage{graphics}
+\usepackage{floatflt}
+\usepackage{wrapfig}     
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{pdflscape}
+\usepackage{color}
+\usepackage[autostyle]{csquotes}
+\usepackage{siunitx}
+\usepackage{titling}
+\usepackage{wrapfig}
+\usepackage{geometry}
+%%=========
+\date{\vspace{-11.5ex}}
+\author{\vspace{-10ex}}
+
+\geometry{
+    a4paper,
+    total={170mm,257mm},
+    left=0mm,
+    right=0mm,
+    top=0mm,
+    bottom=0mm,
+}
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{red},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+%%=========
+
+\usepackage{gensymb}
+\hypersetup{pdfborder={0 0 0 0}}
+
+\pdfpagewidth 210mm
+\pdfpageheight 297mm 
+\setlength\topmargin{0mm}
+\setlength\headheight{0mm}
+\setlength\headsep{0mm}
+\setlength\textheight{250mm}    
+\setlength\textwidth{159.2mm}
+\setlength\oddsidemargin{0mm}
+\setlength\evensidemargin{0mm}
+\setlength\parindent{7mm}
+\setlength\parskip{0mm}
+
+
+\author{\large{Aqeel Labash}\vspace{4ex}}
+\title{\vspace{-15ex}\huge{Machine Translation}\\\LARGE{Clause Restructuring for Statistical Machine Translation Summary}\vspace{-2ex}}
+
+\begin{document}
+\maketitle
+\begin{multicols*}{2}
+
+\section{Introduction}
+The idea of the paper is to simply parse the source language and create a tree out of it then apply some transformation over the words. The transformation will make the source sentence closer to the destination sentence by mean of words location.
+\section{Background}
+They spoke about IBM model implicitly (which derive the word to word alignment). Then about Koehn which is the phrase system they used in the paper. Koehn depends on the output of IBM model. Then  generate phrase to phrase pairs. They also spoke about baseline system that generates N-best translation. The syntactic features then pick the winner.They also mention information about methods used to reorder specific cases (\texttt{NOUN de     NOUN}). Simple German language structure (finite , infinitive verbs ) and the position of each state and how much german language is free context was covered there as well.
+\section{Algorithm}
+To explain the algorithm I use the examples that they used in the paper and work with it step by step.
+\subsection{Initialization}
+This is not part of there reordering methodology but it's essential for their algorithm to work.
+Basicly what they do here is to build a tree of \textbf{annotated} words. For example the sentence \texttt{ wir fordern das Paraesidium auf} will become : 
+\begin{tabular}{rc}
+\texttt{S PREP-SB}& \texttt{Wir}\\
+\texttt{  VVFIN-HD}& \texttt{fordern}\\
+\texttt{  NP-OA ART}& \texttt{das}\\
+\texttt{  NN}& \texttt{Paraesidium}\\
+\texttt{  PTKVZ-SVP}& \texttt{auf}\\
+\end{tabular}
+\label{intro:example}
+\begin{flushleft}
+after the text being annoteated in the previous forum the algorithm start.
+\subsection{Verb initial} In verb phrase \ref{tag:verbphrase}, find head phrase and move it into initial position \ref{initial:position} for example sentence \texttt{Ich werde Ihnen die entsprechenden anmerkungen aushaendigen damit Sie das eventuell bei der Abstimmung uerbernehmen koennen}\\
+\textbf{Become:} \texttt{Ich werde {\color{red}aushaendigen } Ihnen die entsprechenden anmerkungen  damit Sie {\color{red}uerbernehmen } das eventuell bei der Abstimmung koennen}
+\subsection{Verb 2nd}
+Any sbuordinate claus with \texttt{S-..}\(\rightarrow\)\texttt{KOUS,PREL,PWS,PWAV} label the head of that claus would be moved to follow the complementizer. For example :\\ \texttt{damit Sie uerbernehmen das eventuell bei der Abstimmung koennen}\\
+\textbf{Become:} \texttt{damit {\color{red} koennen } Sie uerbernehmen das eventuell bei der Abstimmung}
+\subsection{Move Subject}
+For \texttt{S} labeled clausses the subject\ref{subject} would be moved to directly precede the head\ref{head}. So the sentence we processed in (3.2) will become \texttt{damit {\color{red}Sie} koennen uerbernehmen das eventuell bei der Abstimmung}
+\subsection{Particles} Move the the particle to directly precede the verb. if we used \ref{intro:example} example it will become \texttt{Wir {\color{red}auf} fordern das Praesidium}
+\subsection{Infinitives}
+This stage has two steps: \textbf{1}- remove all \texttt{VP} labeled nodes. \textbf{2-} if the clause contained finite verb, infinitve verb and an argument (subject or object) and the argumet where between the finite and infinitve verb the infinitve verb then the infinitive verb would follow the finite verb. Example: \texttt{Wir konnten es nicht einreichen mehr rechtzeitig} \\
+\textbf{Become:} \texttt{Wir konnten {\color{red}einreichen} es nicht mehr rechtzeitig}
+\subsection{Negation}
+Move negative particlae to follow the finite verb when finite and infinitive verbs exist in same sentence. Example : \texttt{Wir konnten {\color{red}nicht} einreichen es mehr rechtzeitig}.
+\section{Experments and results}
+The experment used the Europarl corpus. \texttt{751,088} sentence pairs with \texttt{15,256,792} German word and \texttt{16,052,269} English word. Test done on 2000 sentence with average 28 word per sentence.The accuracy measurement used were BLEU. The BLEU score was\texttt{25.2\%} compared to \texttt{26.8\%} using there reordering way.
+\subsection{Human Translation Judgements}
+Two annotaters viewed 100 randomly picked translations with length between 10-20 words per sentence. The annotater have to select what they prefered as shown in Table\ref{table1}
+\vspace{-2ex}
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c||c|c|c|}
+\hline
+& \multicolumn{3}{c|}{Annotator2}\\
+\hline
+\hline
+Annotator1&R&B&E\\
+\hline
+R&33&2&5\\
+\hline
+B&2&13&5\\
+\hline
+E&9&4&27\\
+\hline
+\end{tabular}
+\end{center}
+\vspace{-4ex}
+\caption{Annotator 1,2 decisions, R: reordered,B: baseline, E:both same\label{table1}}
+\end{table}
+\subsection{Statistical Significance}
+Under the baseline system 52.85\% of test cases were improved. 36.4\% were worse. 10.75\% had same quality as before.\textbf{Note:}{\color{red} I think they meant under the \textbf{reordered system} here depending on there definition but got to stick with there text}.
+Also there 95\% confidence that the reordered system will perform \([56.9\%,61.5\%]\) better than the baseline.
+\end{flushleft}
+\section*{My Notes:}
+\textbf{Annotation Problem:} one of the things that I noticed while reading this paper that they didn't mention anything about annotating the text. While as far as I know it's not an easy problem and it's an ongoing research to use machine learning for it (maybe the book I read was an old book with outdated info about this case).
+\textbf{Statistics Study}
+
+\section*{Referenced info}
+\begin{enumerate}
+\item \label{tag:verbphrase} Verb phrase could be identified with special annotation.
+\item \label{initial:position} didn't know what they mean by initial position
+\item \label{subject} left most child with label \texttt{-SB , PPEREP}
+\item \label{head} left most child with label \texttt{-HD}
+\item \label{definitions} \(c_+\) count of ordered is better than baseline , \(c_-\) count of baseline better , \(c_0\) count of both same quality.
+\end{enumerate}
+\end{multicols*}
+
+\end{document}
