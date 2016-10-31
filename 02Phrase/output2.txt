@@ -1,0 +1,13 @@
+maja	a house	0.333333333333	1.0
+see	this	1.0	1.0
+suur maja	big house	0.5	1.0
+suur maja	a big house	0.5	1.0
+see on maja	this is a house	1.0	1.0
+suur	big	0.5	1.0
+see on	this is a	0.5	1.0
+on	is a	0.5	1.0
+maja	house	0.666666666667	1.0
+suur	a big	0.5	1.0
+on	is	0.5	1.0
+on maja	is a house	1.0	1.0
+see on	this is	0.5	1.0
