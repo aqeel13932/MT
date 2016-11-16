@@ -1,0 +1,57 @@
+700
+أنه فوق الثلاثين ، ما زال أعزباً إنه يغني أحسن الأغاني فقط
+he &apos;s over thirty , still a bachelor . he just sings bitter songs .
+215
+لا أصدق ذلك .
+I can &apos;t believe it .
+1890
+هم فقط سيضعونه في متحف
+they &apos;d just put it in a museum .
+1731
+إنتظر ...
+wait !
+1632
+تَقُولُ الاسطورة عندما تجمع الصخور الماس الذي بداخلهم سَيَتوهّج
+the legend says when the rocks are brought together , the diamonds inside them will glow .
+1941
+افتح عيونك يا عزيزي ، هذه جنة عدن
+open your eyes , my darling son . this is the Garden of Eden .
+563
+-أكيد أنني سأبقى لمساعدتك ...
+- Of course I will stay and help you ...
+1468
+تلبسين جواهرك في السرير أيتها الأميرة
+wear your jewels to bed , Princess ?
+1899
+أنا ذْاهبُة إلى البيت إلى ميسسوري حيث لايطعون المرء الأفاعي قبل تَمزيق قلبِكَ وإنزالك في حُفَرِة حارةِ
+I &apos;m going home to Missouri where they never feed you snakes , before ripping your heart out and lowering you into hot pits !
+662
+لورد ( غريسطوك ) ، لقد أدركت ...
+Lord Greystoke , I realize ...
+
+baseline
+1- it &apos;s over 30 , still أعزباً he sings better songs . 
+2- I don &apos;t believe it . 
+3- they &apos;re only they &apos;ll put it on a museum . 
+4- wait ... 
+5- you say the legend . when you get the diamonds are سَيَتوهّج in them . 
+6- open your eyes , my dear , this is paradise Eden 
+7- - Sure , I &apos;ll help you . 
+8- don &apos;t you wear جواهرك princess in bed . 
+9- I &apos;m ذْاهبُة home to Missouri where لايطعون one snakes before تَمزيق قلبِكَ وإنزالك in حُفَرِة حارةِ 
+10- Lord , غريسطوك , I realized that ... 
+
+
+Compound Spliter
+BLEU = 23.81, 57.6/31.8/19.3/11.9 (BP=0.934, ratio=0.936, hyp_len=13359, ref_len=14266)
+1- it &apos;s over 30 , still أعزباً he sings better songs . 
+2- I don &apos;t believe it . 
+3- they &apos;re only they &apos;ll put it on a museum . 
+4- wait ... 
+5- you say legend . when the rocks سَيَتوهّج diamonds are in them .
+6- open your eyes , my dear , this is the Garden of 
+7- - Sure , I &apos;ll help you . 
+8- don &apos;t you wear جواهرك princess in bed . 
+9- I &apos;m ذْاهبُة home to Missouri where لايطعون one snakes before تَمزيق قلبِكَ وإنزالك in حُفَرِة حارةِ 
+10- I have a look again . 
+
