@@ -1,11 +1,11 @@
 MOSES=/home/aqeel/MT/moses
 
-#echo Preparing Data
-#tst=10000
-#trn=5000000
-#dev=5000
-#all=0
-#let "all=tst+trn+dev"
+echo Preparing Data
+tst=10000
+trn=5000000
+dev=5000
+all=0
+let "all=tst+trn+dev"
 
 :<<'END'
 echo Take $trn for training , $dev for dev , $tst for testing
@@ -37,18 +37,18 @@ lstart=0
 lend=0
 let "stlimit+=1"
 let "lend=trn"
-sed -n "$stlimit","$lend"p all.et > train.et
-sed -n "$stlimit","$lend"p all.en > train.en
+sed -n "$stlimit","$lend"p tc-tok-all.et > tc-tok-train.et
+sed -n "$stlimit","$lend"p re-tc-tok-all.en > tc-tok-train.en
 let "stlimit+=trn"
 let "lend=stlimit+dev"
-sed -n "$stlimit","$lend"p all.et > dev.et
-sed -n "$stlimit","$lend"p all.en > dev.en
+sed -n "$stlimit","$lend"p tc-tok-all.et > tc-tok-dev.et
+sed -n "$stlimit","$lend"p re-tc-tok-all.en > tc-tok-dev.en
 
 let "stlimit+=dev"
 let "lend = stlimit+tst"
-sed -n "$stlimit","$lend"p  all.et > test.et
-sed -n "$stlimit","$lend"p all.en > test.en
-rm all.et all.en
+sed -n "$stlimit","$lend"p  tc-tok-all.et > tc-tok-test.et
+sed -n "$stlimit","$lend"p re-tc-tok-all.en > tc-tok-test.en
+#rm all.et
 
 $MOSES/+scripts/training/clean-corpus-n.perl tokenized-and-lowecased et en cleaned 1 100
 
@@ -73,13 +73,13 @@ do
 done
 END
 
-:<<'END'
+#:<<'END'
 for i in `seq 1 3`;
 do
 
 	$MOSES/bin/moses -f mt-experiment-1/mert-$i/moses.ini -i tc-tok-test.en > mt-experiment-1/mert-$i/hypothesis0.et
 	$MOSES/scripts/generic/multi-bleu.perl tc-tok-test.et < mt-experiment-1/mert-$i/hypothesis0.et > out_$i.txt
 done
-END
+#END
 
 
